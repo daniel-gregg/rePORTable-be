@@ -12,12 +12,11 @@ const userSchema = new Schema({
   lastName: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
   },
   designation: {
     type: String,
-    enum: ['', 'Dr','Ms','Mr','Mrs','Professor']
-    required: true,
+    enum: ['', 'Dr','Ms','Mr','Mrs','Professor'],
   },
   bio: {
     type: String,

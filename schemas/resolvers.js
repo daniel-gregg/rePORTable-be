@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User } = require('../models');
+const { User, Report } = require('../models');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
@@ -43,7 +43,22 @@ const resolvers = {
       const token = signToken(user);
 
       return { token, user };
-    }
+    },
+
+    addReport: async(parent, args, context) => {
+      if(!context.user){
+        //redirect to login on front end
+        throw new AuthenticationError('Incorrect credentials');
+      } 
+      //logged in
+      const report = await Report.create(args);
+      return report
+    },
+
+    /* changeReportStructure: async(parent,args,context) => {
+      //clear current report structure and update with new one
+      // includes adding another chapter or changing order
+    } */
   }
 };
 

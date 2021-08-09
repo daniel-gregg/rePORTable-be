@@ -8,7 +8,7 @@ const reportSchema = new Schema({
     required: true,
   },
   ownerId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'User',
   },
   synopsis: {
@@ -17,17 +17,21 @@ const reportSchema = new Schema({
   },
   contributors: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'User',
     }
   ],
-  content: {
-    type: Object,
+  headings: {
+    type: String,
     required: true,
+  },
+  content: {
+    type: String,
+    required: false,
   },
   state: {
     type: String,
-    enum: ['Unallocated', 'Draft','Review','Completed','Published']
+    enum: ['Unallocated', 'Draft','Review','Completed','Published'],
     required: true,
   }
 });
