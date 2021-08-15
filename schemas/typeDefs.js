@@ -26,17 +26,27 @@ const typeDefs = gql`
     user: User
   }
 
+  type PartialReport {
+    _id: ID
+    title: String
+    owner: User
+    synopsis: String
+    contributors: [User]
+    state: String
+  }
+
   type Query {
     user: User
     allUsers: [User]
     singleReport(id: ID!): Report
-    userReports: [Report]
+    userReports: [PartialReport]
   }
 
   type Mutation {
     addUser(firstName: String!, lastName: String!,designation: String!, bio: String,team: [String], email: String!, password: String!): Auth
     updateUser(firstName: String, lastName: String,designation: String, bio: String,team: [String], email: String, password: String): User
     updateBio(_id: ID!, bio: String): User
+    updateTeam(member: String): User
     login(email: String!, password: String!): Auth
     addReport(title: String!, owner: String, synopsis: String!, contributors: [String], content: String!, state: String!): Report
     updateReport(id: ID!, title: String, owner: String, synopsis: String, contributors: [String], content: String, state: String): Report

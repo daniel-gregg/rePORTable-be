@@ -40,7 +40,6 @@ const resolvers = {
     addUser: async (parent, args) => {
       const user = await User.create(args);
       const token = signToken(user);
-
       return { token, user };
     },
     updateUser: async (parent, args, context) => {
@@ -56,6 +55,15 @@ const resolvers = {
       }
 
       throw new AuthenticationError('Not logged in');
+    },
+    updateTeam: async(parent, args, context) => {
+      if (context.user) {
+        const user = await User.findById(context.user._id).populate(["team"])
+        console.log(user.team)
+        let userTeam = user.team
+        userTeam.push(args._id)
+        return await User.findByIdAndUpdate(context.user._id, {$set: { team: userTeam}}, { new: true });
+      }
     },
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
