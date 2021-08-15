@@ -22,6 +22,12 @@ const userSchema = new Schema({
     type: String,
     required: false,
   },
+  team: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    }
+  ],
   email: {
     type: String,
     required: true,

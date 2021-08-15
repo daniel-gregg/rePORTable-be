@@ -8,14 +8,15 @@ const typeDefs = gql`
     bio: String
     lastName: String
     email: String
+    team: [User]
   }
   
   type Report {
+    _id: ID
     title: String
     owner: User
     synopsis: String
     contributors: [User]
-    headings: String
     content: String
     state: String
   }
@@ -27,14 +28,21 @@ const typeDefs = gql`
 
   type Query {
     user: User
-    report: Report
+    allUsers: [User]
+    singleReport(id: ID!): Report
+    userReports: [Report]
   }
 
   type Mutation {
-    addUser(firstName: String!, lastName: String!,designation: String!, bio: String, email: String!, password: String!): Auth
-    updateUser(firstName: String, lastName: String,designation: String!, bio: String, email: String, password: String): User
+    addUser(firstName: String!, lastName: String!,designation: String!, bio: String,team: [String], email: String!, password: String!): Auth
+    updateUser(firstName: String, lastName: String,designation: String, bio: String,team: [String], email: String, password: String): User
+    updateBio(_id: ID!, bio: String): User
     login(email: String!, password: String!): Auth
-    addReport(title: String!, owner: String, synopsis: String!, contributors: [String], headings: String!, content: String!, state: String!): Report
+    addReport(title: String!, owner: String, synopsis: String!, contributors: [String], content: String!, state: String!): Report
+    updateReport(id: ID!, title: String, owner: String, synopsis: String, contributors: [String], content: String, state: String): Report
+    updateTitle(id: ID!, title: String): Report
+    updateSynopsis(id: ID!, synopsis: String): Report
+    updateContent(id: ID!, content: String): Report
   }
 `;
 

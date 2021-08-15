@@ -14,10 +14,15 @@ const server = new ApolloServer({
   context: authMiddleware
 });
 
-server.applyMiddleware({ app });
+server.applyMiddleware({ 
+  app,
+  bodyParserConfig: {
+    limit:"10mb"
+  }
+ });
 
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+app.use(express.urlencoded({ extended: false, limit: '16mb', parameterLimit: 1000000 }));
+app.use(express.json({ limit: '16mb', parameterLimit: 1000000 }));
 
 db.once('open', () => {
   app.listen(PORT, () => {

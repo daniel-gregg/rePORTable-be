@@ -7,7 +7,7 @@ const reportSchema = new Schema({
     type: String,
     required: true,
   },
-  ownerId: {
+  owner: {
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
@@ -21,10 +21,6 @@ const reportSchema = new Schema({
       ref: 'User',
     }
   ],
-  headings: {
-    type: String,
-    required: true,
-  },
   content: {
     type: String,
     required: false,
