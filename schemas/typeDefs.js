@@ -39,6 +39,7 @@ const typeDefs = gql`
     user: User
     allUsers: [User]
     singleReport(id: ID!): Report
+    singlePartial(id: ID!): PartialReport
     userReports: [PartialReport]
   }
 
@@ -46,9 +47,12 @@ const typeDefs = gql`
     addUser(firstName: String!, lastName: String!,designation: String!, bio: String,team: [String], email: String!, password: String!): Auth
     updateUser(firstName: String, lastName: String,designation: String, bio: String,team: [String], email: String, password: String): User
     updateBio(_id: ID!, bio: String): User
-    updateTeam(member: String): User
+    updateTeam(memberId: String): User
+    removeTeamMember(id: String): User
+    removeContributor(reportId: String, personId: String): Report
+    addContributor(reportId: String, personId: String): Report
     login(email: String!, password: String!): Auth
-    addReport(title: String!, owner: String, synopsis: String!, contributors: [String], content: String!, state: String!): Report
+    addReport(ownerId: String!, state: String!): Report
     updateReport(id: ID!, title: String, owner: String, synopsis: String, contributors: [String], content: String, state: String): Report
     updateTitle(id: ID!, title: String): Report
     updateSynopsis(id: ID!, synopsis: String): Report

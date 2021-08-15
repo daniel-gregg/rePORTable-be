@@ -23,14 +23,18 @@ const resolvers = {
     singleReport: async (parent, args, context) => {
       if (context.user) {
         const report = await Report.findById(args.id).populate(["owner" ,"contributors"]);
-        console.log(report);
+        return report;
+      }
+    },
+    singlePartial: async (parent, args, context) => {
+      if (context.user) {
+        const report = await Report.findById(args.id).populate(["owner" ,"contributors"]);
         return report;
       }
     },
     userReports: async (parent, args, context) => {
       if (context.user) {
         const reports = await Report.find({contributors:context.user._id}).populate(["owner" ,"contributors"]);
-        console.log(reports);
         return reports;
       }
     }
@@ -61,8 +65,35 @@ const resolvers = {
         const user = await User.findById(context.user._id).populate(["team"])
         console.log(user.team)
         let userTeam = user.team
-        userTeam.push(args._id)
+        userTeam.push(args.memberId)
         return await User.findByIdAndUpdate(context.user._id, {$set: { team: userTeam}}, { new: true });
+      }
+    },
+    removeTeamMember: async(parent, args, context) => {
+      if (context.user) {
+        const user = await User.findById(context.user._id).populate(["team"])
+        console.log(user.team)
+        let userTeam = user.team
+        userTeam.pull({ _id: args.id }) // removed
+        return await User.findByIdAndUpdate(context.user._id, {$set: { team: userTeam}}, { new: true });
+      }
+    },
+    addContributor: async(parent, args, context) => {
+      if (context.user) {
+        const report = await Report.findById(args.reportId).populate(["contributors"])
+        console.log(report.contributors)
+        let reportContributors = report.contributors
+        reportContributors.push({ _id: args.personId }) // removed
+        return await Report.findByIdAndUpdate(args.reportId, {$set: { contributors: reportContributors}}, { new: true });
+      }
+    },
+    removeContributor: async(parent, args, context) => {
+      if (context.user) {
+        const report = await Report.findById(args.reportId).populate(["contributors"])
+        console.log(report.contributors)
+        let reportContributors = report.contributors
+        reportContributors.pull({ _id: args.personId }) // removed
+        return await Report.findByIdAndUpdate(args.reportId, {$set: { contributors: reportContributors}}, { new: true });
       }
     },
     login: async (parent, { email, password }) => {

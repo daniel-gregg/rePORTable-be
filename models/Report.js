@@ -5,7 +5,6 @@ const { Schema } = mongoose;
 const reportSchema = new Schema({
   title: {
     type: String,
-    required: true,
   },
   owner: {
     type: Schema.Types.ObjectId,
@@ -13,7 +12,6 @@ const reportSchema = new Schema({
   },
   synopsis: {
     type: String,
-    required: true,
   },
   contributors: [
     {
