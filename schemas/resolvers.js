@@ -123,6 +123,12 @@ const resolvers = {
       const report = await Report.create(args);
       return report
     },
+    removeReport: async(parent, args, context) => {
+      if (context.user) {
+        const report = await Report.findByIdAndDelete(args.reportId)
+        console.log(report);
+      }
+    },
 
     updateTitle: async(parent,args,context) => {
       if(!context.user){

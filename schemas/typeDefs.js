@@ -52,7 +52,8 @@ const typeDefs = gql`
     removeContributor(reportId: String, personId: String): Report
     addContributor(reportId: String, personId: String): Report
     login(email: String!, password: String!): Auth
-    addReport(ownerId: String!, state: String!): Report
+    addReport(owner: String!, contributors: [String!],title: String, synopsis: String, state: String!): Report
+    removeReport(reportId: String): Report
     updateReport(id: ID!, title: String, owner: String, synopsis: String, contributors: [String], content: String, state: String): Report
     updateTitle(id: ID!, title: String): Report
     updateSynopsis(id: ID!, synopsis: String): Report
